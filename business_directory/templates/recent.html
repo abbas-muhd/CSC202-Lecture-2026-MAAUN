@@ -1,0 +1,61 @@
+<!--ABBAS MUHAMMAD YUSUF-->
+<!--MAAUN/24/CSC/0052-->
+
+{% extends "base.html" %}
+{% block title %}Recently Added — BizConnect NG{% endblock %}
+
+{% block content %}
+
+<section class="recent-section">
+  <div class="section-header">
+    <h1>🕐 Recently Added Businesses</h1>
+    <p>The 5 most recently listed businesses — powered by a <strong>LIFO Stack</strong>.</p>
+  </div>
+
+  <!-- STACK INFO BOX -->
+  <div class="info-box">
+    <h4>📚 How this works (Data Structure)</h4>
+    <p>
+      Every time a business is added, it is <strong>pushed</strong> onto a Stack (Last-In, First-Out).
+      This page <strong>peeks</strong> the top 5 items — showing newest first.
+      The <em>Undo</em> button below <strong>pops</strong> the top of the stack, removing the last entry.
+    </p>
+  </div>
+
+  {% if businesses %}
+    <div class="recent-list">
+      {% for biz in businesses %}
+        <div class="recent-card">
+          <div class="recent-rank">#{{ loop.index }}</div>
+          <div class="recent-body">
+            <h3>{{ biz.name }}</h3>
+            <span class="biz-category">{{ biz.category }}</span>
+            <p>{{ biz.description }}</p>
+            <div class="biz-meta">
+              <span>📍 {{ biz.location }}</span>
+              <span>🕐 Added: {{ biz.timestamp }}</span>
+            </div>
+            <a href="{{ url_for('business_detail', business_id=biz.id) }}" class="btn-view">View Details</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- UNDO FORM -->
+    <div class="undo-section">
+      <p>Made a mistake? Remove the most recently added business:</p>
+      <form method="POST" action="{{ url_for('undo_last') }}" onsubmit="return confirm('Are you sure you want to undo the last addition?')">
+        <button type="submit" class="btn-undo">↩ Undo Last Add (Stack Pop)</button>
+      </form>
+    </div>
+
+  {% else %}
+    <div class="empty-state">
+      <p>😕 No businesses have been added yet.</p>
+      <a href="{{ url_for('add_business') }}">Add the first one!</a>
+    </div>
+  {% endif %}
+
+</section>
+
+{% endblock %}

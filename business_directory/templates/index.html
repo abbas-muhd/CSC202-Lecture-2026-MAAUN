@@ -1,0 +1,83 @@
+
+<!--ABBAS MUHAMMAD YUSUF-->
+<!--MAAUN/24/CSC/0052-->
+
+{% extends "base.html" %}
+{% block title %}BizConnect NG — All Businesses{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <h1>Local Business &amp; Startup Directory</h1>
+  <p>Discover, support, and grow with businesses in your community.</p>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <span class="stat-number">{{ total }}</span>
+      <span class="stat-label">Businesses Listed</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ categories | length }}</span>
+      <span class="stat-label">Categories</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ now }}</span>
+      <span class="stat-label">Last Updated</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<section class="filter-bar">
+  <h3>Filter by Category:</h3>
+  <div class="filter-chips">
+    <a href="{{ url_for('index') }}" class="chip {% if not selected_category %}chip-active{% endif %}">All</a>
+    {% for cat in categories %}
+      <a href="{{ url_for('index', category=cat) }}"
+         class="chip {% if selected_category == cat %}chip-active{% endif %}">
+        {{ cat }}
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- BUSINESSES GRID -->
+<section class="businesses-section">
+  {% if selected_category %}
+    <h2>{{ businesses | length }} result(s) in "{{ selected_category }}"</h2>
+  {% else %}
+    <h2>All Businesses</h2>
+  {% endif %}
+
+  {% if businesses %}
+    <div class="business-grid">
+      {% for biz in businesses %}
+        <div class="business-card {% if biz.is_recent %}card-recent{% endif %}">
+          {% if biz.is_recent %}
+            <span class="badge-new">NEW</span>
+          {% endif %}
+          <div class="card-header">
+            <h3 class="biz-name">{{ biz.name }}</h3>
+            <span class="biz-category">{{ biz.category }}</span>
+          </div>
+          <p class="biz-description">{{ biz.description }}</p>
+          <div class="biz-meta">
+            <span>📍 {{ biz.location }}</span>
+            <span>📞 {{ biz.contact }}</span>
+          </div>
+          <div class="card-footer">
+            <span class="biz-timestamp">Added: {{ biz.timestamp }}</span>
+            <a href="{{ url_for('business_detail', business_id=biz.id) }}" class="btn-view">View Details</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>😕 No businesses found in this category.</p>
+      <a href="{{ url_for('index') }}">View All Businesses</a>
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}

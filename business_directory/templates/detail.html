@@ -1,0 +1,52 @@
+<!--ABBAS MUHAMMAD YUSUF-->
+<!--MAAUN/24/CSC/0052-->
+
+{% extends "base.html" %}
+{% block title %}{{ business.name }} — BizConnect NG{% endblock %}
+
+{% block content %}
+
+<section class="detail-section">
+  <a href="{{ url_for('index') }}" class="back-link">← Back to Directory</a>
+
+  <div class="detail-card">
+    {% if business.is_recent %}
+      <span class="badge-new badge-large">✨ Recently Added</span>
+    {% endif %}
+
+    <h1 class="detail-name">{{ business.name }}</h1>
+    <span class="biz-category biz-category-large">{{ business.category }}</span>
+
+    <hr class="divider">
+
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">📝 Description</span>
+        <p>{{ business.description }}</p>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">📍 Location</span>
+        <p>{{ business.location }}</p>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">📞 Contact</span>
+        <p>{{ business.contact }}</p>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">🕐 Date Listed</span>
+        <p>{{ business.timestamp }}</p>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">🔢 Directory ID</span>
+        <p>#{{ business.id }}</p>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <a href="{{ url_for('index') }}" class="btn-cancel">Back to All</a>
+      <a href="{{ url_for('add_business') }}" class="btn-submit">Add Another</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

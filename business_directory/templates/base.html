@@ -1,0 +1,49 @@
+<!--ABBAS MUHAMMAD YUSUF-->
+<!--MAAUN/24/CSC/0052-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}BizConnect NG{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏢</span>
+      <a href="{{ url_for('index') }}" class="brand-name">BizConnect NG</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}">All Businesses</a></li>
+      <li><a href="{{ url_for('recently_added') }}">Recently Added</a></li>
+      <li><a href="{{ url_for('add_business') }}" class="btn-nav">+ Add Business</a></li>
+    </ul>
+  </nav>
+
+  <!-- FLASH MESSAGES -->
+  <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>🏢 BizConnect NG &mdash; Connecting local businesses with the community &mdash; CSC 202 Project</p>
+  </footer>
+
+</body>
+</html>
